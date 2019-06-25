@@ -1,0 +1,24 @@
+CREATE OR REPLACE PROCEDURE max_salary_stats(pso_name OUT HR.EMPLOYEES.FIRST_NAME%TYPE,
+                                             pio_salary OUT HR.EMPLOYEES.SALARY%TYPE) IS
+    dollar number := 5.77;
+BEGIN
+    SELECT 
+        FIRST_NAME, SALARY 
+    INTO
+        pso_name,pio_salary
+    FROM 
+        HR.EMPLOYEES 
+    WHERE 
+        SALARY = (SELECT MAX(SALARY) FROM HR.EMPLOYEES);
+    DBMS_OUTPUT.PUT_LINE('Name of the richest employee-> ' || pso_name);
+    DBMS_OUTPUT.PUT_LINE('Salary in TL-> ' || pio_salary);
+    DBMS_OUTPUT.PUT_LINE('Salary in dollars-> ' || pio_salary/dollar);
+END;
+/
+
+DECLARE
+    f_name HR.EMPLOYEES.FIRST_NAME%TYPE;
+    emp_sal HR.EMPLOYEES.SALARY%TYPE;
+BEGIN
+    max_salary_stats(f_name, emp_sal);
+END;
